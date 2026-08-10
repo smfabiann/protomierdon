@@ -1,0 +1,20 @@
+[gd_scene format=3 uid="uid://fxtdk4dv6rsv"]
+
+[ext_resource type="Script" uid="uid://rm63kh4s6ebf" path="res://scenes/Player.cs" id="1_3vyb7"]
+
+[sub_resource type="CapsuleShape3D" id="CapsuleShape3D_fk6vv"]
+
+[sub_resource type="CapsuleMesh" id="CapsuleMesh_fk6vv"]
+
+[node name="Player" type="CharacterBody3D" unique_id=1005931224]
+script = ExtResource("1_3vyb7")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="." unique_id=46931776]
+shape = SubResource("CapsuleShape3D_fk6vv")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="." unique_id=1431746886]
+mesh = SubResource("CapsuleMesh_fk6vv")
+
+[node name="Label3D" type="Label3D" parent="MeshInstance3D" unique_id=347197248]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.0016288161, 0.0414325, 0.6021149)
+text = "Semen"

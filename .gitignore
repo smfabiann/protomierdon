@@ -1,0 +1,12 @@
+# Godot 4+ specific ignores
+.godot/
+/android/
+
+# Archivos de compilación de C# / Visual Studio
+.vs/
+bin/
+obj/
+
+# Archivos de solución temporal si aplican
+*.user
+*.useros

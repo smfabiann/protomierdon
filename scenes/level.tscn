@@ -1,0 +1,95 @@
+[gd_scene format=3 uid="uid://c2o3aue13tuai"]
+
+[ext_resource type="PackedScene" uid="uid://fxtdk4dv6rsv" path="res://scenes/player.tscn" id="1_2q6dc"]
+[ext_resource type="PackedScene" uid="uid://wge0lce7eb1c" path="res://scenes/poker_table.tscn" id="3_w8frs"]
+[ext_resource type="Script" uid="uid://dryw3fjajds3n" path="res://scenes/MainCamera.cs" id="4_2r41h"]
+[ext_resource type="Script" uid="uid://b6xwgwx4b5d0" path="res://scenes/TableGameTrigger.cs" id="4_mx8sn"]
+
+[sub_resource type="PhysicsMaterial" id="PhysicsMaterial_fk6vv"]
+
+[sub_resource type="PlaneMesh" id="PlaneMesh_fk6vv"]
+
+[sub_resource type="CanvasTexture" id="CanvasTexture_w7c3h"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_mx8sn"]
+albedo_color = Color(0.7529412, 0.7529412, 0.7529412, 1)
+albedo_texture = SubResource("CanvasTexture_w7c3h")
+roughness = 0.6
+
+[sub_resource type="HeightMapShape3D" id="HeightMapShape3D_fk6vv"]
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_fk6vv"]
+size = Vector3(1, 1, 2.6713867)
+
+[sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_tem6s"]
+
+[sub_resource type="Sky" id="Sky_2a6q0"]
+sky_material = SubResource("ProceduralSkyMaterial_tem6s")
+
+[sub_resource type="Environment" id="Environment_fk6vv"]
+background_mode = 2
+sky = SubResource("Sky_2a6q0")
+
+[node name="Level" type="Node3D" unique_id=1006938256]
+
+[node name="MainCamera" type="Camera3D" parent="." unique_id=2062244119 node_paths=PackedStringArray("Target")]
+transform = Transform3D(1, 0, 0, 0, 0.5944543, 0.80412954, 0, -0.80412954, 0.5944543, 0, 12.224119, 1.9086702)
+script = ExtResource("4_2r41h")
+Target = NodePath("../Player/PlayerCameraPivot")
+
+[node name="Ground" type="StaticBody3D" parent="." unique_id=213831282]
+transform = Transform3D(10.015, 0, 0, 0, 10.015, 0, 0, 0, 10.015, 0, 0, 0)
+physics_material_override = SubResource("PhysicsMaterial_fk6vv")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Ground" unique_id=1968700606]
+transform = Transform3D(50.008583, 0, 0, 0, 50.008583, 0, 0, 0, 50.008583, 0.00013093381, 0.00029938613, -0.00066994666)
+mesh = SubResource("PlaneMesh_fk6vv")
+surface_material_override/0 = SubResource("StandardMaterial3D_mx8sn")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Ground" unique_id=891168330]
+transform = Transform3D(50.000004, 0, 0, 0, 50.000004, 0, 0, 0, 50.000004, 0, 0, 0)
+visible = false
+shape = SubResource("HeightMapShape3D_fk6vv")
+
+[node name="Player" parent="." unique_id=1005931224 instance=ExtResource("1_2q6dc")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.009, 1, 0)
+
+[node name="PlayerCameraPivot" type="Node3D" parent="Player" unique_id=1726904102]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.42650366, 0)
+
+[node name="TableTop" type="Node3D" parent="." unique_id=1728055015]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.3967738, -3.1708448)
+
+[node name="ReferenceCamera" type="Camera3D" parent="TableTop" unique_id=1953621529]
+transform = Transform3D(-4.371139e-08, 1, 4.371139e-08, 0, -4.371139e-08, 1, 1, 4.371139e-08, 1.9106855e-15, 9.32422, 3.765308, 3.1708448)
+
+[node name="BoardCameraPivot" type="Node3D" parent="TableTop" unique_id=1184648246]
+
+[node name="PokerTable" parent="TableTop" unique_id=1673909171 instance=ExtResource("3_w8frs")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 10.395053, -1.3967738, 3.1708448)
+
+[node name="TableGameTrigger" type="Area3D" parent="TableTop" unique_id=1368486301 node_paths=PackedStringArray("ReferenceCamera", "MainCamera", "PlayerNode")]
+script = ExtResource("4_mx8sn")
+ReferenceCamera = NodePath("../ReferenceCamera")
+MainCamera = NodePath("../../MainCamera")
+PlayerNode = NodePath("../../Player")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="TableTop/TableGameTrigger" unique_id=1863998118]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 5.247841, -0.88806593, 3.1274428)
+shape = SubResource("BoxShape3D_fk6vv")
+debug_color = Color(0.97881645, 0, 0.39693248, 0.41960785)
+
+[node name="Label3D" type="Label3D" parent="TableTop/TableGameTrigger" unique_id=372828569]
+transform = Transform3D(-8.829701e-08, 2.02, 8.829701e-08, 0, -8.829701e-08, 2.02, 2.02, 8.829701e-08, 3.8595844e-15, 5.261417, -1.3719354, 3.1784506)
+text = "ENTRAR MESA"
+
+[node name="DirectionalLight3D" type="DirectionalLight3D" parent="." unique_id=1363018752]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 200, 0)
+visible = false
+light_color = Color(1, 1, 0.39215687, 1)
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="." unique_id=1973751716]
+environment = SubResource("Environment_fk6vv")
+
+[connection signal="body_entered" from="TableTop/TableGameTrigger" to="TableTop/TableGameTrigger" method="_on_body_entered"]
+[connection signal="body_exited" from="TableTop/TableGameTrigger" to="TableTop/TableGameTrigger" method="_on_body_exited"]
