@@ -58,7 +58,7 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.009, 1, 0)
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.42650366, 0)
 
 [node name="TableTop" type="Node3D" parent="." unique_id=1728055015]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.3967738, -3.1708448)
+transform = Transform3D(-4.371139e-08, 0, 1, 0, 1, 0, -1, 0, -4.371139e-08, 0, 1.3967738, -3.1708448)
 
 [node name="ReferenceCamera" type="Camera3D" parent="TableTop" unique_id=1953621529]
 transform = Transform3D(-4.371139e-08, 1, 4.371139e-08, 0, -4.371139e-08, 1, 1, 4.371139e-08, 1.9106855e-15, 9.32422, 3.765308, 3.1708448)

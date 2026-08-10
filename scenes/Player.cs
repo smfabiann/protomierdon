@@ -21,6 +21,8 @@ public partial class Player : CharacterBody3D
 
 	public override void _UnhandledInput(InputEvent @event)
 	{
+		// Mouse Movement Handler
+		// Recuerda que se utilizara un povite, no me acuerdo porque
 		if (@event is InputEventMouseMotion mouseMotion)
 		{
 			// rota el jugador horizontalmente

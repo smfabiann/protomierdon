@@ -16,5 +16,5 @@ shape = SubResource("CapsuleShape3D_fk6vv")
 mesh = SubResource("CapsuleMesh_fk6vv")
 
 [node name="Label3D" type="Label3D" parent="MeshInstance3D" unique_id=347197248]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.0016288161, 0.0414325, 0.6021149)
+transform = Transform3D(-1, 0, -8.742278e-08, 0, 1, 0, 8.742278e-08, 0, -1, 0.0016288161, 0.0414325, -0.52546847)
 text = "Semen"

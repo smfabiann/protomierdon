@@ -32,16 +32,16 @@ public partial class TableGameTrigger : Area3D
 		}
 	}
 
-    public override void _UnhandledInput(InputEvent @event)
-    {
-        if (_isPlayerInside && !_isPlayingCards && @event.IsActionPressed("ui_accept"))
+	public override void _UnhandledInput(InputEvent @event)
+	{
+		if (_isPlayerInside && !_isPlayingCards && @event.IsActionPressed("ui_accept"))
 		{
 			EnterTableMode();
 		} else if (_isPlayingCards && @event.IsActionPressed("ui_cancel"))
 		{
 			ExitTableMode();
 		}
-    }
+	}
 
 	private void EnterTableMode()
 	{
@@ -50,9 +50,8 @@ public partial class TableGameTrigger : Area3D
 		ReferenceCamera.MakeCurrent();
 		Input.MouseMode = Input.MouseModeEnum.Visible;
 		PlayerNode.SetProcessUnhandledInput(false);
-        PlayerNode.SetPhysicsProcess(false);
+		PlayerNode.SetPhysicsProcess(false);
 
-		GD.Print("MODO SEXO ACTIVADO!!!!");
 	}
 
 	private void ExitTableMode()
@@ -61,7 +60,7 @@ public partial class TableGameTrigger : Area3D
 		MainCamera.MakeCurrent();
 		Input.MouseMode = Input.MouseModeEnum.Captured;
 		PlayerNode.SetProcessUnhandledInput(true);
-        PlayerNode.SetPhysicsProcess(true);
+		PlayerNode.SetPhysicsProcess(true);
 	}
 	// // Called every frame. 'delta' is the elapsed time since the previous frame.
 	// public override void _Process(double delta)
