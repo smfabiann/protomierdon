@@ -4,6 +4,8 @@
 [ext_resource type="PackedScene" uid="uid://wge0lce7eb1c" path="res://scenes/poker_table.tscn" id="3_w8frs"]
 [ext_resource type="Script" uid="uid://dryw3fjajds3n" path="res://scenes/MainCamera.cs" id="4_2r41h"]
 [ext_resource type="Script" uid="uid://b6xwgwx4b5d0" path="res://scenes/TableGameTrigger.cs" id="4_mx8sn"]
+[ext_resource type="Script" uid="uid://khva457xijx5" path="res://scenes/DeckManager.cs" id="5_ppgk2"]
+[ext_resource type="PackedScene" uid="uid://usehnhqtghrx" path="res://scenes/card_visual.tscn" id="6_2r41h"]
 
 [sub_resource type="PhysicsMaterial" id="PhysicsMaterial_fk6vv"]
 
@@ -42,7 +44,7 @@ transform = Transform3D(10.015, 0, 0, 0, 10.015, 0, 0, 0, 10.015, 0, 0, 0)
 physics_material_override = SubResource("PhysicsMaterial_fk6vv")
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="Ground" unique_id=1968700606]
-transform = Transform3D(50.008583, 0, 0, 0, 50.008583, 0, 0, 0, 50.008583, 0.00013093381, 0.00029938613, -0.00066994666)
+transform = Transform3D(50.008583, 0, 0, 0, 50.008583, 0, 0, 0, 50.008583, 0.00240404, 0.0002993385, -0.0010155643)
 mesh = SubResource("PlaneMesh_fk6vv")
 surface_material_override/0 = SubResource("StandardMaterial3D_mx8sn")
 
@@ -82,6 +84,10 @@ debug_color = Color(0.97881645, 0, 0.39693248, 0.41960785)
 [node name="Label3D" type="Label3D" parent="TableTop/TableGameTrigger" unique_id=372828569]
 transform = Transform3D(-8.829701e-08, 2.02, 8.829701e-08, 0, -8.829701e-08, 2.02, 2.02, 8.829701e-08, 3.8595844e-15, 5.261417, -1.3719354, 3.1784506)
 text = "ENTRAR MESA"
+
+[node name="DeckManager" type="Node3D" parent="TableTop" unique_id=819084819]
+script = ExtResource("5_ppgk2")
+CardVisualScene = ExtResource("6_2r41h")
 
 [node name="DirectionalLight3D" type="DirectionalLight3D" parent="." unique_id=1363018752]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 200, 0)
