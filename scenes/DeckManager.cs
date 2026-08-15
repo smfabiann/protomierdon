@@ -4,62 +4,148 @@ using System.Collections.Generic;
 
 public partial class DeckManager : Node3D
 {
-	[Export] public PackedScene CardVisualScene;
+    // Escena visual de la carta (se asigna en el Inspector)
+    [Export] public PackedScene CardVisualScene;
+    // Referencia a la mesa de juego (se asigna en el Inspector)
+    [Export] public PokerTable Table { get; set; }
+    private readonly List<PokerCardData> _deck = new();
+    private readonly List<CardVisual> _draw = new();
 
-	private List<PokerCardData> deck = new List<PokerCardData>();
-	private void generateDeck()
-	{
-		deck.Clear();
-		Array rankArray = Enum.GetValues(typeof(CardRank));
-		Array suitArray = Enum.GetValues(typeof(CardSuit));
+    public override void _Ready()
+    {
+        // 1. Precargar los materiales en memoria una sola vez al arrancar
+        CardMaterialCache.Initialize();
 
-		for (int i=0; i < rankArray.Length; i++)
-		{
-			for (int j=0; j< suitArray.Length; j++)
-			{
-				PokerCardData carta = new PokerCardData((CardSuit)suitArray.GetValue(j), (CardRank)rankArray.GetValue(i));
-				deck.Add(carta);
-			}
-		}
-	}
+        // 2. Comprobaciones de seguridad (Null Checks)
+        if (Table == null)
+        {
+            GD.PrintErr("[DeckManager] ERROR: La variable 'Table' es NULL. Asígnala en el Inspector.");
+            return;
+        }
 
-	// Logica un Pilin mas eficiente a retirar cartas en la posicion n-1, efectivamente un pop y evitar O(n) por carta retirada
-	public PokerCardData PopCard()
-	{
-		if (deck.Count == 0) 
-		{
-			GD.PrintErr("Mazo vacio");
-			return null; 
-		}
+        if (Table.CornerLeft == null || Table.CornerRight == null)
+        {
+            GD.PrintErr("[DeckManager] ERROR: 'CornerLeft' o 'CornerRight' en PokerTable son NULL. Asígnalos en el Inspector.");
+            return;
+        }
+    }
 
-		int ultimoIndice = deck.Count - 1; 
-		PokerCardData cartaRobada = deck[ultimoIndice]; 
-		deck.RemoveAt(ultimoIndice); 
+    // Inicia una ronda/partida
+    public void StartGame()
+    {
+        ClearTable(); // Limpia cualquier carta previa antes de empezar
 
-		return cartaRobada;
-	}
+        int segments = 5;
+        generateDeck();
+        ShuffleDeck();
 
-	private void distributeCardsVisual()
-	{
-		if (deck.Count == 0) return;
+        for (int i = 0; i < segments; i++)
+        {
+            distributeCardVisual();
+        }
 
-		int ultimaCarta = deck.Count - 1;
-		PokerCardData cardLogic = PopCard();
+        Vector3 pointA = Table.CornerLeft.GlobalPosition;
+        Vector3 pointB = Table.CornerRight.GlobalPosition;
 
-		// yo no cachaba esta wea antes, se pueden instanciar escenas y colocarlas en alguna parte
-		CardVisual newCard3D = CardVisualScene.Instantiate<CardVisual>();
-		newCard3D.InjectConfiguration(cardLogic);
+        // Calculamos la profundidad (Z) y la altura (Y) sobre la mesa
+        float zPosition = Mathf.Lerp(pointA.Z, pointB.Z, 0.2f);
+        float tableHeight = pointA.Y + 0.01f; // Pequeño margen para evitar Z-Fighting
 
-		// metodo de Godot, le colocamos un hijo al nodo DeckManager, en este caso, la scene de la carta instanciada
-		AddChild(newCard3D);
-		newCard3D.Position = new Vector3(0, 2, 0);
-		GD.Print("Se crea una carta en el nivel");
-	}
+        GD.Print("[DeckManager] Posicionando cartas en la mesa...");
 
-	// Called when the node enters the scene tree for the first time.
-	// public override void _Ready()
-	// {
-	// 	generateDeck();
-	// 	distributeCardsVisual();
-	// }
+        for (int i = 0; i < segments; i++)
+        {
+            // Distribución proporcional dejando margen a los costados
+            float t = (float)(i + 1) / (segments + 1);
+
+            Vector3 newPosition = new Vector3(
+                Mathf.Lerp(pointA.X, pointB.X, t), // Eje X distribuido
+                tableHeight,                       // Eje Y fijo
+                zPosition                          // Eje Z fijo
+            );
+
+            _draw[i].GlobalPosition = newPosition;
+            GD.Print($"[DeckManager] Carta [{i}] colocada en: {newPosition}");
+        }
+    }
+
+    // Genera las 52 cartas estándar de la baraja
+    private void generateDeck()
+    {
+        _deck.Clear();
+        Array rankArray = Enum.GetValues(typeof(CardRank));
+        Array suitArray = Enum.GetValues(typeof(CardSuit));
+
+        for (int i = 0; i < rankArray.Length; i++)
+        {
+            for (int j = 0; j < suitArray.Length; j++)
+            {
+                PokerCardData carta = new PokerCardData(
+                    (CardSuit)suitArray.GetValue(j), 
+                    (CardRank)rankArray.GetValue(i)
+                );
+                _deck.Add(carta);
+            }
+        }
+    }
+
+    // Barajado estándar Fisher-Yates: O(n)
+    public void ShuffleDeck()
+    {
+        if (_deck.Count <= 1) return;
+
+        for (int i = _deck.Count - 1; i > 0; i--)
+        {
+            int j = GD.RandRange(0, i);
+            (_deck[i], _deck[j]) = (_deck[j], _deck[i]); // Intercambio con tuplas C#
+        }
+
+        GD.Print("[DeckManager] Mazo barajado exitosamente.");
+    }
+
+    // Retira la última carta del mazo (O(1))
+    public PokerCardData PopCard()
+    {
+        if (_deck.Count == 0)
+        {
+            GD.PrintErr("[DeckManager] Error: El mazo está vacío.");
+            return null;
+        }
+
+        int ultimoIndice = _deck.Count - 1;
+        PokerCardData cartaRobada = _deck[ultimoIndice];
+        _deck.RemoveAt(ultimoIndice);
+
+        return cartaRobada;
+    }
+
+    // Instancia visualmente una carta y le inyecta sus datos
+    private void distributeCardVisual()
+    {
+        if (_deck.Count == 0 || CardVisualScene == null) return;
+
+        PokerCardData cardLogic = PopCard();
+
+        CardVisual newCard3D = CardVisualScene.Instantiate<CardVisual>();
+        AddChild(newCard3D);
+        
+        newCard3D.InjectConfiguration(cardLogic);
+        _draw.Add(newCard3D);
+    }
+
+    // Limpia las cartas visuales y reinicia las listas
+    public void ClearTable()
+    {
+        _deck.Clear();
+
+        foreach (CardVisual card in _draw)
+        {
+            if (IsInstanceValid(card))
+            {
+                card.QueueFree();
+            }
+        }
+
+        _draw.Clear();
+    }
 }

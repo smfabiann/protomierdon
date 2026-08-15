@@ -3,6 +3,8 @@ using System;
 
 public partial class TableGameTrigger : Area3D
 {
+	// El nodo del juego principal, que no se te olvide watom
+	[Export] public DeckManager DeckManagerNode;
 	[Export] public Camera3D ReferenceCamera;
 	[Export] public Camera3D MainCamera;
 	[Export] public Player PlayerNode;
@@ -17,7 +19,7 @@ public partial class TableGameTrigger : Area3D
 	// Entrada
 	private void _on_body_entered(Node3D body)
 	{
-		GD.Print("Muerte a Antonio Campos");
+		GD.Print("Body entered");
 		if (body is Player)
 		{
 			_isPlayerInside = true;
@@ -52,6 +54,14 @@ public partial class TableGameTrigger : Area3D
 		PlayerNode.SetProcessUnhandledInput(false);
 		PlayerNode.SetPhysicsProcess(false);
 
+		if (DeckManagerNode != null)
+		{
+			GD.Print("[TableGameTrigger] DeckManagerNode.StartGame();");
+			DeckManagerNode.StartGame();
+		} else
+		{
+			GD.PrintErr("¡Falta asignar DeckManagerNode en el Inspector!");
+		}
 	}
 
 	private void ExitTableMode()
@@ -61,9 +71,10 @@ public partial class TableGameTrigger : Area3D
 		Input.MouseMode = Input.MouseModeEnum.Captured;
 		PlayerNode.SetProcessUnhandledInput(true);
 		PlayerNode.SetPhysicsProcess(true);
+
+		if (DeckManagerNode != null)
+        {
+            DeckManagerNode.ClearTable();
+        }
 	}
-	// // Called every frame. 'delta' is the elapsed time since the previous frame.
-	// public override void _Process(double delta)
-	// {
-	// }
 }

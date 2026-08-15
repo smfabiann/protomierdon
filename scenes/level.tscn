@@ -4,6 +4,7 @@
 [ext_resource type="PackedScene" uid="uid://wge0lce7eb1c" path="res://scenes/poker_table.tscn" id="3_w8frs"]
 [ext_resource type="Script" uid="uid://dryw3fjajds3n" path="res://scenes/MainCamera.cs" id="4_2r41h"]
 [ext_resource type="Script" uid="uid://b6xwgwx4b5d0" path="res://scenes/TableGameTrigger.cs" id="4_mx8sn"]
+[ext_resource type="Script" uid="uid://cgj63oy5yxn3c" path="res://scenes/PokerTable.cs" id="5_klq6b"]
 [ext_resource type="Script" uid="uid://khva457xijx5" path="res://scenes/DeckManager.cs" id="5_ppgk2"]
 [ext_resource type="PackedScene" uid="uid://usehnhqtghrx" path="res://scenes/card_visual.tscn" id="6_2r41h"]
 
@@ -50,11 +51,10 @@ surface_material_override/0 = SubResource("StandardMaterial3D_mx8sn")
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="Ground" unique_id=891168330]
 transform = Transform3D(50.000004, 0, 0, 0, 50.000004, 0, 0, 0, 50.000004, 0, 0, 0)
-visible = false
 shape = SubResource("HeightMapShape3D_fk6vv")
 
 [node name="Player" parent="." unique_id=1005931224 instance=ExtResource("1_2q6dc")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.009, 1, 0)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.023116287, 1, 0)
 
 [node name="PlayerCameraPivot" type="Node3D" parent="Player" unique_id=1726904102]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.42650366, 0)
@@ -62,16 +62,9 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.42650366, 0)
 [node name="TableTop" type="Node3D" parent="." unique_id=1728055015]
 transform = Transform3D(-4.371139e-08, 0, 1, 0, 1, 0, -1, 0, -4.371139e-08, 0, 1.3967738, -3.1708448)
 
-[node name="ReferenceCamera" type="Camera3D" parent="TableTop" unique_id=1953621529]
-transform = Transform3D(-4.371139e-08, 1, 4.371139e-08, 0, -4.371139e-08, 1, 1, 4.371139e-08, 1.9106855e-15, 9.32422, 3.765308, 3.1708448)
-
-[node name="BoardCameraPivot" type="Node3D" parent="TableTop" unique_id=1184648246]
-
-[node name="PokerTable" parent="TableTop" unique_id=1673909171 instance=ExtResource("3_w8frs")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 10.395053, -1.3967738, 3.1708448)
-
-[node name="TableGameTrigger" type="Area3D" parent="TableTop" unique_id=1368486301 node_paths=PackedStringArray("ReferenceCamera", "MainCamera", "PlayerNode")]
+[node name="TableGameTrigger" type="Area3D" parent="TableTop" unique_id=1368486301 node_paths=PackedStringArray("DeckManagerNode", "ReferenceCamera", "MainCamera", "PlayerNode")]
 script = ExtResource("4_mx8sn")
+DeckManagerNode = NodePath("../DeckManager")
 ReferenceCamera = NodePath("../ReferenceCamera")
 MainCamera = NodePath("../../MainCamera")
 PlayerNode = NodePath("../../Player")
@@ -85,9 +78,27 @@ debug_color = Color(0.97881645, 0, 0.39693248, 0.41960785)
 transform = Transform3D(-8.829701e-08, 2.02, 8.829701e-08, 0, -8.829701e-08, 2.02, 2.02, 8.829701e-08, 3.8595844e-15, 5.261417, -1.3719354, 3.1784506)
 text = "ENTRAR MESA"
 
-[node name="DeckManager" type="Node3D" parent="TableTop" unique_id=819084819]
+[node name="DeckManager" type="Node3D" parent="TableTop" unique_id=819084819 node_paths=PackedStringArray("Table")]
 script = ExtResource("5_ppgk2")
 CardVisualScene = ExtResource("6_2r41h")
+Table = NodePath("../PokerTable")
+
+[node name="ReferenceCamera" type="Camera3D" parent="TableTop" unique_id=1953621529]
+transform = Transform3D(-4.371139e-08, 1, 4.371139e-08, 0, -4.371139e-08, 1, 1, 4.371139e-08, 1.9106855e-15, 9.32422, 4.016895, 3.1708443)
+
+[node name="BoardCameraPivot" type="Node3D" parent="TableTop" unique_id=1184648246]
+
+[node name="PokerTable" parent="TableTop" unique_id=1673909171 node_paths=PackedStringArray("CornerRight", "CornerLeft") instance=ExtResource("3_w8frs")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 10.395053, -1.3967738, 3.1708448)
+script = ExtResource("5_klq6b")
+CornerRight = NodePath("CornerRight")
+CornerLeft = NodePath("CornerLeft")
+
+[node name="CornerRight" type="Marker3D" parent="TableTop/PokerTable" unique_id=1621034115]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.9096518, 1.2112808, 3.9276521)
+
+[node name="CornerLeft" type="Marker3D" parent="TableTop/PokerTable" unique_id=945290571]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -4.112648, 1.224427, -3.9842896)
 
 [node name="DirectionalLight3D" type="DirectionalLight3D" parent="." unique_id=1363018752]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 200, 0)
