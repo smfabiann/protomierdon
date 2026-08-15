@@ -33,16 +33,14 @@ public partial class DeckManager : Node3D
     // Inicia una ronda/partida
     public void StartGame()
     {
+        GD.Print("caca");
         ClearTable(); // Limpia cualquier carta previa antes de empezar
 
         int segments = 5;
         generateDeck();
         ShuffleDeck();
 
-        for (int i = 0; i < segments; i++)
-        {
-            distributeCardVisual();
-        }
+        takeCardVisual();
 
         Vector3 pointA = Table.CornerLeft.GlobalPosition;
         Vector3 pointB = Table.CornerRight.GlobalPosition;
@@ -120,7 +118,7 @@ public partial class DeckManager : Node3D
     }
 
     // Instancia visualmente una carta y le inyecta sus datos
-    private void distributeCardVisual()
+    private void takeCardVisual()
     {
         if (_deck.Count == 0 || CardVisualScene == null) return;
 

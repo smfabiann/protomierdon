@@ -16,7 +16,7 @@ public static class CardMaterialCache
             foreach (CardRank rank in System.Enum.GetValues(typeof(CardRank)))
             {
                 string key = GetKey(suit, rank);
-                string path = $"res://PNG/poker_cards/{GetFileName(suit, rank)}";
+                string path = $"res://assets/PNG/poker_cards/{GetFileName(suit, rank)}";
 
                 var texture = GD.Load<Texture2D>(path);
                 if (texture != null)
@@ -43,12 +43,17 @@ public static class CardMaterialCache
     private static string GetFileName(CardSuit suit, CardRank rank)
     {
         char prefix = suit switch
-        {
+        {   
             CardSuit.Clubs => 'c',
-            CardSuit.Hearts => 'h',
-            CardSuit.Diamonds => 'd',
-            CardSuit.Spades => 's',
+            CardSuit.Hearts => 'c',
+            CardSuit.Diamonds => 'c',
+            CardSuit.Spades => 'c',
             _ => 'c'
+            // CardSuit.Clubs => 'c',
+            // CardSuit.Hearts => 'h',
+            // CardSuit.Diamonds => 'd',
+            // CardSuit.Spades => 's',
+            // _ => 'c'
         };
         return $"{prefix}{((int)rank).ToString("D2")}.png";
     }

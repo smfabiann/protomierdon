@@ -2,8 +2,8 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://i4xdwsiqfqp5"
-path.s3tc="res://.godot/imported/thedevil.png-c49b3d58c42fc35c9930e219499712de.s3tc.ctex"
+uid="uid://bjp1vljhykjdo"
+path.s3tc="res://.godot/imported/c01.png-8bb021ba2d6e1ecc09fb226e3bbd9e07.s3tc.ctex"
 metadata={
 "imported_formats": ["s3tc_bptc"],
 "vram_texture": true
@@ -11,8 +11,8 @@ metadata={
 
 [deps]
 
-source_file="res://PNG/thedevil.png"
-dest_files=["res://.godot/imported/thedevil.png-c49b3d58c42fc35c9930e219499712de.s3tc.ctex"]
+source_file="res://assets/PNG/poker_cards/c01.png"
+dest_files=["res://.godot/imported/c01.png-8bb021ba2d6e1ecc09fb226e3bbd9e07.s3tc.ctex"]
 
 [params]
 

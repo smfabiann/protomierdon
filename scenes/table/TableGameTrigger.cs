@@ -14,6 +14,10 @@ public partial class TableGameTrigger : Area3D
 	// Called when the node enters the scene tree for the first time.
 	public override void _Ready()
 	{
+		if (DeckManagerNode == null)
+		{
+			GD.PrintErr("[TableGameTrigger] Falta asignar DeckManagerNode en el Inspector");
+		}
 	}
 
 	// Entrada
@@ -53,15 +57,6 @@ public partial class TableGameTrigger : Area3D
 		Input.MouseMode = Input.MouseModeEnum.Visible;
 		PlayerNode.SetProcessUnhandledInput(false);
 		PlayerNode.SetPhysicsProcess(false);
-
-		if (DeckManagerNode != null)
-		{
-			GD.Print("[TableGameTrigger] DeckManagerNode.StartGame();");
-			DeckManagerNode.StartGame();
-		} else
-		{
-			GD.PrintErr("¡Falta asignar DeckManagerNode en el Inspector!");
-		}
 	}
 
 	private void ExitTableMode()

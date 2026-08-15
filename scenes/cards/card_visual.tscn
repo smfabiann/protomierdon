@@ -1,6 +1,6 @@
 [gd_scene format=3 uid="uid://usehnhqtghrx"]
 
-[ext_resource type="Script" uid="uid://dfu6764gwkljg" path="res://scenes/CardVisual.cs" id="1_4xisq"]
+[ext_resource type="Script" uid="uid://dfu6764gwkljg" path="res://scenes/cards/CardVisual.cs" id="1_4xisq"]
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_tem6s"]
 metallic_specular = 0.7

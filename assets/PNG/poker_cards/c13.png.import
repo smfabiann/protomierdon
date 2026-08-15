@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://ohi1jlqalo2d"
-path="res://.godot/imported/c07.png-a37057d60abc5a4a87d6d820464e24db.ctex"
+uid="uid://cgbtw76u3dyie"
+path="res://.godot/imported/c13.png-50f169d1e610075fe809a8bc6a2ef771.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://PNG/poker_cards/c07.png"
-dest_files=["res://.godot/imported/c07.png-a37057d60abc5a4a87d6d820464e24db.ctex"]
+source_file="res://assets/PNG/poker_cards/c13.png"
+dest_files=["res://.godot/imported/c13.png-50f169d1e610075fe809a8bc6a2ef771.ctex"]
 
 [params]
 
