@@ -8,6 +8,9 @@
 [ext_resource type="Script" uid="uid://khva457xijx5" path="res://scenes/DeckManager.cs" id="5_ppgk2"]
 [ext_resource type="PackedScene" uid="uid://usehnhqtghrx" path="res://scenes/cards/card_visual.tscn" id="6_2r41h"]
 [ext_resource type="Script" uid="uid://ebrnumnagwiw" path="res://scenes/scripts/ui/BlackjackUI.cs" id="8_b121j"]
+[ext_resource type="Script" path="res://scenes/skyjump/SkyJumpTrigger.cs" id="20_skyjt"]
+[ext_resource type="Script" path="res://scenes/skyjump/SkyJumpGame.cs" id="21_skyjg"]
+[ext_resource type="Script" path="res://scenes/scripts/ui/SkyJumpUI.cs" id="22_skyju"]
 
 [sub_resource type="PhysicsMaterial" id="PhysicsMaterial_fk6vv"]
 
@@ -35,6 +38,9 @@ background_mode = 2
 sky = SubResource("Sky_2a6q0")
 
 [sub_resource type="LabelSettings" id="LabelSettings_olg7q"]
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_skyj1"]
+size = Vector3(2, 2, 3)
 
 [node name="Level" type="Node3D" unique_id=1006938256]
 
@@ -172,5 +178,33 @@ offset_top = 539.0
 offset_right = 454.0
 offset_bottom = 562.0
 
+[node name="SkyJumpArea" type="Node3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 8, 0, 5)
+
+[node name="SkyJumpGame" type="Node3D" parent="SkyJumpArea"]
+script = ExtResource("21_skyjg")
+
+[node name="SkyJumpTrigger" type="Area3D" parent="SkyJumpArea" node_paths=PackedStringArray("GameNode", "MainCamera", "PlayerNode")]
+script = ExtResource("20_skyjt")
+GameNode = NodePath("../SkyJumpGame")
+MainCamera = NodePath("../../MainCamera")
+PlayerNode = NodePath("../../Player")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="SkyJumpArea/SkyJumpTrigger"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
+shape = SubResource("BoxShape3D_skyj1")
+
+[node name="Label3D" type="Label3D" parent="SkyJumpArea/SkyJumpTrigger"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 3, 0)
+billboard = 1
+font_size = 48
+text = "SALTAR"
+
+[node name="SkyJumpUILayer" type="CanvasLayer" parent="." node_paths=PackedStringArray("Game")]
+script = ExtResource("22_skyju")
+Game = NodePath("../SkyJumpArea/SkyJumpGame")
+
 [connection signal="body_entered" from="TableTop/TableGameTrigger" to="TableTop/TableGameTrigger" method="_on_body_entered"]
 [connection signal="body_exited" from="TableTop/TableGameTrigger" to="TableTop/TableGameTrigger" method="_on_body_exited"]
+[connection signal="body_entered" from="SkyJumpArea/SkyJumpTrigger" to="SkyJumpArea/SkyJumpTrigger" method="_on_body_entered"]
+[connection signal="body_exited" from="SkyJumpArea/SkyJumpTrigger" to="SkyJumpArea/SkyJumpTrigger" method="_on_body_exited"]
