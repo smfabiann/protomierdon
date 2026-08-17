@@ -57,6 +57,8 @@ public partial class TableGameTrigger : Area3D
 		Input.MouseMode = Input.MouseModeEnum.Visible;
 		PlayerNode.SetProcessUnhandledInput(false);
 		PlayerNode.SetPhysicsProcess(false);
+		DeckManagerNode.SetUIVisible(true);
+		DeckManagerNode.StartGame();
 	}
 
 	private void ExitTableMode()
@@ -69,6 +71,7 @@ public partial class TableGameTrigger : Area3D
 
 		if (DeckManagerNode != null)
         {
+			DeckManagerNode.SetUIVisible(false);
             DeckManagerNode.ClearTable();
         }
 	}

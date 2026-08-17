@@ -4,12 +4,21 @@ using System;
 public partial class CardVisual : Node3D
 {
     [Export] private MeshInstance3D _mesh;
+    private ShaderMaterial _shaderMaterial;
 
     public PokerCardData DatosCarta { get; private set; }
 
     public override void _Ready()
     {
         _mesh ??= GetNode<MeshInstance3D>("MeshInstance3D");
+
+        // Duplicamos el material para que cada carta tenga su propia instancia única
+        // y no cambien todas las cartas a la vez al asignar la textura
+        if (_mesh.MaterialOverride is ShaderMaterial baseMat)
+        {
+            _shaderMaterial = (ShaderMaterial)baseMat.Duplicate();
+            _mesh.MaterialOverride = _shaderMaterial;
+        }
     }
 
     public void InjectConfiguration(PokerCardData data)
@@ -24,16 +33,24 @@ public partial class CardVisual : Node3D
 
         _mesh ??= GetNode<MeshInstance3D>("MeshInstance3D");
 
-        // 1. Obtener la referencia al material pre-cargado desde la caché estática
-        StandardMaterial3D material = CardMaterialCache.GetMaterial(DatosCarta.Suit, DatosCarta.Rank);
-
-        if (material == null)
+        if (_shaderMaterial == null && _mesh.MaterialOverride is ShaderMaterial mat)
         {
-            GD.PrintErr($"[CardVisual] No se encontró el material en caché para: {DatosCarta.Suit}_{DatosCarta.Rank}");
+            _shaderMaterial = (ShaderMaterial)mat.Duplicate();
+            _mesh.MaterialOverride = _shaderMaterial;
+        }
+
+        // 1. Obtener las texturas desde la caché
+        Texture2D textureFront = CardMaterialCache.GetTexture(DatosCarta.Suit, DatosCarta.Rank);
+        Texture2D textureBack  = CardMaterialCache.GetTexture("back");
+
+        if (textureFront == null)
+        {
+            GD.PrintErr($"[CardVisual] No se encontró textura en caché para: {DatosCarta.Suit}_{DatosCarta.Rank}");
             return;
         }
 
-        // 2. Asignarlo directamente al MeshInstance3D
-        _mesh.MaterialOverride = material;
+        // 2. Asignar los parámetros directamente al Shader
+        _shaderMaterial?.SetShaderParameter("texture_front", textureFront);
+        _shaderMaterial?.SetShaderParameter("texture_back", textureBack);
     }
 }
