@@ -9,7 +9,7 @@ public partial class Player : CharacterBody3D
     [Export] public float MaxPitch = 89.0f;
 	private Node3D _cameraPivot;
 	public const float Speed = 5.0f;
-	public const float JumpVelocity = 4.5f;
+	public const float JumpVelocity = 5f;
 
 	public override void _Ready()
 	{
