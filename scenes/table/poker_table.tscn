@@ -8,17 +8,17 @@ uv1_offset = Vector3(0, -0.32, 0)
 
 [sub_resource type="BoxMesh" id="BoxMesh_fk6vv"]
 material = SubResource("StandardMaterial3D_ox824")
-size = Vector3(4.930176, 1.0739441, 6.383789)
+size = Vector3(4.930176, 1.0739441, 8.454102)
 
-[sub_resource type="BoxShape3D" id="BoxShape3D_fk6vv"]
-size = Vector3(6.055664, 1.2351379, 7.9470215)
+[sub_resource type="ConvexPolygonShape3D" id="ConvexPolygonShape3D_b2r3x"]
+points = PackedVector3Array(-2.5321968, -0.60409683, -4.2941966, 2.5671618, 0.603646, 4.2941966, 2.5671618, -0.60409683, 4.2941966, 2.5671618, 0.603646, -4.2941966, -2.5321968, 0.603646, 4.2941966, -2.5321968, -0.60409683, 4.2941966, 2.5671618, -0.60409683, -4.2941966, -2.5321968, 0.603646, -4.2941966)
 
 [node name="PokerTable" type="StaticBody3D" unique_id=1673909171]
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="." unique_id=495966181]
-transform = Transform3D(1.23, 0, 0, 0, 1.23, 0, 0, 0, 1.23, -1.072069, 0.5470123, -0.009109497)
+transform = Transform3D(1.23, 0, 0, 0, 0.885, 0, 0, 0, 1.23, -1.072069, 0.5470123, -0.009109497)
 mesh = SubResource("BoxMesh_fk6vv")
 
-[node name="CollisionShape3D" type="CollisionShape3D" parent="." unique_id=1025060641]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1.0581055, 0.46612006, -0.009460449)
-shape = SubResource("BoxShape3D_fk6vv")
+[node name="CollisionShape3D" type="CollisionShape3D" parent="." unique_id=1847247365]
+transform = Transform3D(1.17, 0, 0, 0, 1.17, 0, 0, 0, 1.17, -1.072069, 0.5470123, -0.009109497)
+shape = SubResource("ConvexPolygonShape3D_b2r3x")

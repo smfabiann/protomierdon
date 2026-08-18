@@ -8,6 +8,9 @@
 [ext_resource type="Script" uid="uid://khva457xijx5" path="res://scenes/DeckManager.cs" id="5_ppgk2"]
 [ext_resource type="PackedScene" uid="uid://usehnhqtghrx" path="res://scenes/cards/card_visual.tscn" id="6_2r41h"]
 [ext_resource type="Script" uid="uid://ebrnumnagwiw" path="res://scenes/scripts/ui/BlackjackUI.cs" id="8_b121j"]
+[ext_resource type="Script" uid="uid://d3pyujfx2r0v5" path="res://scenes/skyjump/SkyJumpTrigger.cs" id="20_skyjt"]
+[ext_resource type="Script" uid="uid://br68ejktopp18" path="res://scenes/skyjump/SkyJumpGame.cs" id="21_skyjg"]
+[ext_resource type="Script" uid="uid://b3dupg0xbx2fx" path="res://scenes/scripts/ui/SkyJumpUI.cs" id="22_skyju"]
 
 [sub_resource type="PhysicsMaterial" id="PhysicsMaterial_fk6vv"]
 
@@ -35,6 +38,14 @@ background_mode = 2
 sky = SubResource("Sky_2a6q0")
 
 [sub_resource type="LabelSettings" id="LabelSettings_olg7q"]
+font_size = 42
+
+[sub_resource type="LabelSettings" id="LabelSettings_hud1"]
+font_size = 42
+font_color = Color(1, 1, 1, 1)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_skyj1"]
+size = Vector3(2, 2, 3)
 
 [node name="Level" type="Node3D" unique_id=1006938256]
 
@@ -65,11 +76,15 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.42650366, 0)
 [node name="TableTop" type="Node3D" parent="." unique_id=1728055015]
 transform = Transform3D(-4.371139e-08, 0, 1, 0, 1, 0, -1, 0, -4.371139e-08, 0, 1.3967738, -3.1708448)
 
-[node name="DeckManager" type="Node3D" parent="TableTop" unique_id=819084819 node_paths=PackedStringArray("Table", "UI")]
+[node name="DeckManager" type="Node3D" parent="TableTop" unique_id=819084819 node_paths=PackedStringArray("Table", "UI", "DeckSpawnPoint")]
 script = ExtResource("5_ppgk2")
 CardVisualScene = ExtResource("6_2r41h")
 Table = NodePath("../PokerTable")
 UI = NodePath("../../CanvasLayer")
+DeckSpawnPoint = NodePath("../DeckSpawnPoint")
+
+[node name="DeckSpawnPoint" type="Marker3D" parent="TableTop" unique_id=1676343005]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 10.551673, -0.37520838, 7.3461275)
 
 [node name="ReferenceCamera" type="Camera3D" parent="TableTop" unique_id=1953621529]
 transform = Transform3D(-4.371139e-08, 1, 4.371139e-08, 0, -4.371139e-08, 1, 1, 4.371139e-08, 1.9106855e-15, 9.32422, 4.016895, 3.1708443)
@@ -111,9 +126,9 @@ shadow_enabled = true
 
 [node name="CanvasLayer" type="CanvasLayer" parent="." unique_id=1716879195 node_paths=PackedStringArray("BtnHit", "BtnStand", "BtnRestart", "LblScorePlayer", "LblScoreDealer", "LblStatus", "Manager")]
 script = ExtResource("8_b121j")
-BtnHit = NodePath("BlackjackUI/HBoxContainer/HitButton")
-BtnStand = NodePath("BlackjackUI/HBoxContainer/StandButton")
-BtnRestart = NodePath("BlackjackUI/RestartButton")
+BtnHit = NodePath("BlackjackUI/MarginContainer/HBoxContainer/HitButton")
+BtnStand = NodePath("BlackjackUI/MarginContainer/HBoxContainer/StandButton")
+BtnRestart = NodePath("BlackjackUI/MarginContainer/RestartButton")
 LblScorePlayer = NodePath("BlackjackUI/LabelPlayerScore")
 LblScoreDealer = NodePath("BlackjackUI/LabelDealerScore")
 LblStatus = NodePath("BlackjackUI/LabelStatus")
@@ -128,42 +143,55 @@ grow_horizontal = 2
 grow_vertical = 2
 mouse_filter = 2
 
-[node name="HBoxContainer" type="HBoxContainer" parent="CanvasLayer/BlackjackUI" unique_id=1120968143]
+[node name="MarginContainer" type="MarginContainer" parent="CanvasLayer/BlackjackUI" unique_id=677545641]
 layout_mode = 0
-offset_left = 411.0
-offset_top = 606.0
-offset_right = 660.0
-offset_bottom = 646.0
+offset_right = 1154.0
+offset_bottom = 648.0
+theme_override_constants/margin_left = 25
+theme_override_constants/margin_top = 25
+theme_override_constants/margin_right = 25
+theme_override_constants/margin_bottom = 25
+
+[node name="HBoxContainer" type="HBoxContainer" parent="CanvasLayer/BlackjackUI/MarginContainer" unique_id=1120968143]
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 8
 alignment = 1
 
-[node name="HitButton" type="Button" parent="CanvasLayer/BlackjackUI/HBoxContainer" unique_id=54136102]
+[node name="HitButton" type="Button" parent="CanvasLayer/BlackjackUI/MarginContainer/HBoxContainer" unique_id=54136102]
+custom_minimum_size = Vector2(200, 50)
 layout_mode = 2
 text = "Hit"
 
-[node name="StandButton" type="Button" parent="CanvasLayer/BlackjackUI/HBoxContainer" unique_id=891527970]
+[node name="StandButton" type="Button" parent="CanvasLayer/BlackjackUI/MarginContainer/HBoxContainer" unique_id=891527970]
+custom_minimum_size = Vector2(200, 50)
 layout_mode = 2
 text = "Stand"
 
-[node name="RestartButton" type="Button" parent="CanvasLayer/BlackjackUI" unique_id=1941176787]
-layout_mode = 0
-offset_left = 1073.0
-offset_top = 609.0
-offset_right = 1138.0
-offset_bottom = 640.0
+[node name="RestartButton" type="Button" parent="CanvasLayer/BlackjackUI/MarginContainer" unique_id=1941176787]
+custom_minimum_size = Vector2(120, 50)
+layout_mode = 2
+size_flags_horizontal = 8
+size_flags_vertical = 8
 text = "Restart"
 
 [node name="LabelPlayerScore" type="Label" parent="CanvasLayer/BlackjackUI" unique_id=1492740518]
-layout_mode = 0
-offset_left = 513.0
-offset_top = 579.0
-offset_right = 553.0
-offset_bottom = 602.0
-label_settings = SubResource("LabelSettings_olg7q")
+layout_mode = 1
+anchor_top = 1.0
+anchor_bottom = 1.0
+offset_left = 20.0
+offset_top = -80.0
+offset_right = 450.0
+offset_bottom = -10.0
+label_settings = SubResource("LabelSettings_hud1")
 
 [node name="LabelDealerScore" type="Label" parent="CanvasLayer/BlackjackUI" unique_id=90685994]
-layout_mode = 0
-offset_right = 40.0
-offset_bottom = 23.0
+layout_mode = 1
+offset_left = 20.0
+offset_top = 20.0
+offset_right = 460.0
+offset_bottom = 80.0
+label_settings = SubResource("LabelSettings_hud1")
 
 [node name="LabelStatus" type="Label" parent="CanvasLayer/BlackjackUI" unique_id=1809275251]
 layout_mode = 0
@@ -171,6 +199,37 @@ offset_left = 414.0
 offset_top = 539.0
 offset_right = 454.0
 offset_bottom = 562.0
+visible = false
+
+[node name="SkyJumpArea" type="Node3D" parent="." unique_id=1923809221]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 8, 0, 5)
+visible = false
+
+[node name="SkyJumpGame" type="Node3D" parent="SkyJumpArea" unique_id=1156142770]
+script = ExtResource("21_skyjg")
+
+[node name="SkyJumpTrigger" type="Area3D" parent="SkyJumpArea" unique_id=705667647 node_paths=PackedStringArray("GameNode", "MainCamera", "PlayerNode")]
+script = ExtResource("20_skyjt")
+GameNode = NodePath("../SkyJumpGame")
+MainCamera = NodePath("../../MainCamera")
+PlayerNode = NodePath("../../Player")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="SkyJumpArea/SkyJumpTrigger" unique_id=1691852456]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
+shape = SubResource("BoxShape3D_skyj1")
+
+[node name="Label3D" type="Label3D" parent="SkyJumpArea/SkyJumpTrigger" unique_id=1342417899]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.8738127, 0)
+billboard = 1
+text = "SALTAR"
+font_size = 48
+
+[node name="SkyJumpUILayer" type="CanvasLayer" parent="." unique_id=738424226 node_paths=PackedStringArray("Game")]
+visible = false
+script = ExtResource("22_skyju")
+Game = NodePath("../SkyJumpArea/SkyJumpGame")
 
 [connection signal="body_entered" from="TableTop/TableGameTrigger" to="TableTop/TableGameTrigger" method="_on_body_entered"]
 [connection signal="body_exited" from="TableTop/TableGameTrigger" to="TableTop/TableGameTrigger" method="_on_body_exited"]
+[connection signal="body_entered" from="SkyJumpArea/SkyJumpTrigger" to="SkyJumpArea/SkyJumpTrigger" method="_on_body_entered"]
+[connection signal="body_exited" from="SkyJumpArea/SkyJumpTrigger" to="SkyJumpArea/SkyJumpTrigger" method="_on_body_exited"]
