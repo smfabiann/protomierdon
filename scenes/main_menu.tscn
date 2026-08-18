@@ -22,7 +22,7 @@ offset_left = -326.0
 offset_top = -91.0
 offset_right = 1472.0
 offset_bottom = 749.0
-color = Color(0.85490197, 1, 1, 1)
+color = Color(0.6724908, 0.805265, 0.9320858, 1)
 
 [node name="MarginContainer" type="MarginContainer" parent="." unique_id=1008795500]
 layout_mode = 1
@@ -55,7 +55,7 @@ label_settings = SubResource("LabelSettings_l6cm7")
 
 [node name="LabelMechanics" type="Label" parent="MarginContainer/VBoxContainer" unique_id=1622914161]
 layout_mode = 2
-text = "Mecanica Principal: juego de cartas"
+text = "Mecánica: Juego de cartas Blackjack — pide cartas sin pasarte de 21 y gana contra el Dealer."
 label_settings = SubResource("LabelSettings_l6cm7")
 
 [node name="LabelAssets" type="Label" parent="MarginContainer/VBoxContainer" unique_id=826123802]

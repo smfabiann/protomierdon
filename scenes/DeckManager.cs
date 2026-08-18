@@ -18,7 +18,7 @@ public partial class DeckManager : Node3D
     [Export] public float DealDelay { get; set; } = 0.15f/SPEED_FACTOR;
     
     
-    const float SPEED_FACTOR = 3f;
+    const float SPEED_FACTOR = 2f;
     private readonly List<PokerCardData> _deckPile = new();
     private readonly List<CardVisual> _dealersHand = new();
     private readonly List<CardVisual> _playersHand = new();
@@ -117,7 +117,7 @@ public partial class DeckManager : Node3D
 
         if (score > 21)
         {
-            EndGame("¡Te pasaste! (Bust) La casa gana.");
+            EndGame(GameResult.DealerWin, score, CalculateHandScore(_dealersHand));
         }
         else if (score == 21)
         {
@@ -164,27 +164,19 @@ public partial class DeckManager : Node3D
         int dealerScore = CalculateHandScore(_dealersHand);
 
         if (dealerScore > 21)
-        {
-            EndGame($"¡El Dealer se pasó con {dealerScore}! ¡Ganaste!");
-        }
+            EndGame(GameResult.PlayerWin, playerScore, dealerScore);
         else if (playerScore > dealerScore)
-        {
-            EndGame($"¡Ganaste! ({playerScore} vs {dealerScore})");
-        }
+            EndGame(GameResult.PlayerWin, playerScore, dealerScore);
         else if (playerScore < dealerScore)
-        {
-            EndGame($"La casa gana ({dealerScore} vs {playerScore}).");
-        }
+            EndGame(GameResult.DealerWin, playerScore, dealerScore);
         else
-        {
-            EndGame($"Empate (Push) a {playerScore} puntos.");
-        }
+            EndGame(GameResult.Draw, playerScore, dealerScore);
     }
 
-    private void EndGame(string resultMessage)
+    private void EndGame(GameResult result, int playerScore, int dealerScore)
     {
         _gameOver = true;
-        UI?.ShowResult(resultMessage);
+        UI?.ShowResult(result, playerScore, dealerScore);
     }
 
     // ================= REPARTO Y VISUALES =================

@@ -40,6 +40,10 @@ sky = SubResource("Sky_2a6q0")
 [sub_resource type="LabelSettings" id="LabelSettings_olg7q"]
 font_size = 42
 
+[sub_resource type="LabelSettings" id="LabelSettings_hud1"]
+font_size = 42
+font_color = Color(1, 1, 1, 1)
+
 [sub_resource type="BoxShape3D" id="BoxShape3D_skyj1"]
 size = Vector3(2, 2, 3)
 
@@ -172,17 +176,22 @@ size_flags_vertical = 8
 text = "Restart"
 
 [node name="LabelPlayerScore" type="Label" parent="CanvasLayer/BlackjackUI" unique_id=1492740518]
-layout_mode = 0
-offset_left = 821.0
-offset_top = 541.0
-offset_right = 861.0
-offset_bottom = 564.0
-label_settings = SubResource("LabelSettings_olg7q")
+layout_mode = 1
+anchor_top = 1.0
+anchor_bottom = 1.0
+offset_left = 20.0
+offset_top = -80.0
+offset_right = 450.0
+offset_bottom = -10.0
+label_settings = SubResource("LabelSettings_hud1")
 
 [node name="LabelDealerScore" type="Label" parent="CanvasLayer/BlackjackUI" unique_id=90685994]
-layout_mode = 0
-offset_right = 40.0
-offset_bottom = 23.0
+layout_mode = 1
+offset_left = 20.0
+offset_top = 20.0
+offset_right = 460.0
+offset_bottom = 80.0
+label_settings = SubResource("LabelSettings_hud1")
 
 [node name="LabelStatus" type="Label" parent="CanvasLayer/BlackjackUI" unique_id=1809275251]
 layout_mode = 0
@@ -190,6 +199,7 @@ offset_left = 414.0
 offset_top = 539.0
 offset_right = 454.0
 offset_bottom = 562.0
+visible = false
 
 [node name="SkyJumpArea" type="Node3D" parent="." unique_id=1923809221]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 8, 0, 5)
