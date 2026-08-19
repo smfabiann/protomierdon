@@ -1,9 +1,7 @@
 [gd_scene format=3 uid="uid://wge0lce7eb1c"]
 
-[ext_resource type="Texture2D" uid="uid://cuno4u81y76rt" path="res://assets/PNG/Antonio.png" id="1_bx4wl"]
-
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_ox824"]
-albedo_texture = ExtResource("1_bx4wl")
+albedo_color = Color(0.10669776, 0.30208674, 0.1583665, 1)
 uv1_offset = Vector3(0, -0.32, 0)
 
 [sub_resource type="BoxMesh" id="BoxMesh_fk6vv"]

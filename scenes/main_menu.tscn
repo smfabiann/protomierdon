@@ -45,22 +45,22 @@ layout_mode = 2
 
 [node name="LabelTitle" type="Label" parent="MarginContainer/VBoxContainer" unique_id=179490806]
 layout_mode = 2
-text = "PROTOMIERDON"
+text = "CARTAS PROTOROSAS"
 label_settings = SubResource("LabelSettings_vue75")
-
-[node name="LabelCredits" type="Label" parent="MarginContainer/VBoxContainer" unique_id=95791119]
-layout_mode = 2
-text = "Fabián San Martín"
-label_settings = SubResource("LabelSettings_l6cm7")
 
 [node name="LabelMechanics" type="Label" parent="MarginContainer/VBoxContainer" unique_id=1622914161]
 layout_mode = 2
-text = "Mecánica: Juego de cartas Blackjack — pide cartas sin pasarte de 21 y gana contra el Dealer."
+text = "Mecánica Principal Tomada de PEGOTE, juego de cartas."
 label_settings = SubResource("LabelSettings_l6cm7")
 
 [node name="LabelAssets" type="Label" parent="MarginContainer/VBoxContainer" unique_id=826123802]
 layout_mode = 2
-text = "Assets: todo hecho a mano :)"
+text = "Assets usados: Ninguno."
+label_settings = SubResource("LabelSettings_l6cm7")
+
+[node name="LabelCredits" type="Label" parent="MarginContainer/VBoxContainer" unique_id=95791119]
+layout_mode = 2
+text = "Fabián San Martín"
 label_settings = SubResource("LabelSettings_l6cm7")
 
 [node name="ButtonPlay" type="Button" parent="MarginContainer/VBoxContainer" unique_id=1853916999]
@@ -70,4 +70,11 @@ size_flags_horizontal = 0
 size_flags_vertical = 10
 text = "PLAY"
 
+[node name="ButtonExit" type="Button" parent="MarginContainer/VBoxContainer" unique_id=1853917000]
+custom_minimum_size = Vector2(200, 50)
+layout_mode = 2
+size_flags_horizontal = 0
+text = "SALIR"
+
 [connection signal="pressed" from="MarginContainer/VBoxContainer/ButtonPlay" to="." method="_on_button_play_pressed"]
+[connection signal="pressed" from="MarginContainer/VBoxContainer/ButtonExit" to="." method="_on_button_exit_pressed"]

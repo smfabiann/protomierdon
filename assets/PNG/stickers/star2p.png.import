@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://ba5yykrveye0x"
-path="res://.godot/imported/c10.png-67344fa1988a2bfe708cac5eccbecc33.ctex"
+uid="uid://beewct6plvc4j"
+path="res://.godot/imported/star2p.png-4ab407c66524030fa0f2a9662387ffe7.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/PNG/poker_cards/c10.png"
-dest_files=["res://.godot/imported/c10.png-67344fa1988a2bfe708cac5eccbecc33.ctex"]
+source_file="res://assets/PNG/stickers/star2p.png"
+dest_files=["res://.godot/imported/star2p.png-4ab407c66524030fa0f2a9662387ffe7.ctex"]
 
 [params]
 

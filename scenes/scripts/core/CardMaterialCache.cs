@@ -11,7 +11,6 @@ public static class CardMaterialCache
     {
         if (_isInitialized) return;
 
-        // Pre-cargar las 52 texturas de las cartas
         foreach (CardSuit suit in Enum.GetValues(typeof(CardSuit)))
         {
             foreach (CardRank rank in Enum.GetValues(typeof(CardRank)))
@@ -31,7 +30,6 @@ public static class CardMaterialCache
             }
         }
 
-        // Cargar el reverso de la carta
         Texture2D textureBack = GD.Load<Texture2D>("res://assets/PNG/poker_cards/back.png");
         if (textureBack != null)
         {
@@ -56,6 +54,38 @@ public static class CardMaterialCache
         return _textureCache.GetValueOrDefault(key);
     }
 
+    public static Texture2D GetStickerTexture(StickerType type)
+    {
+        if (type == StickerType.None) return null;
+        string key = $"sticker_{type}";
+        if (_textureCache.TryGetValue(key, out var cached)) return cached;
+
+        string fileName = type switch
+        {
+            StickerType.PlusTwo  => "plus2.png",
+            StickerType.PlusFive => "plus5.png",
+            StickerType.Double   => "double.png",
+            StickerType.Invert   => "invert.png",
+            _                    => null
+        };
+
+        if (fileName != null)
+        {
+            string path = $"res://assets/PNG/stickers/{fileName}";
+            if (ResourceLoader.Exists(path))
+            {
+                var tex = GD.Load<Texture2D>(path);
+                if (tex != null)
+                {
+                    _textureCache[key] = tex;
+                    return tex;
+                }
+            }
+        }
+
+        return null;
+    }
+
     private static string GetKey(CardSuit suit, CardRank rank) => $"{suit}_{rank}";
 
     private static string GetFileName(CardSuit suit, CardRank rank)
@@ -67,11 +97,6 @@ public static class CardMaterialCache
             CardSuit.Diamonds => 'c',
             CardSuit.Spades   => 'c',
             _                 => 'c'
-            // CardSuit.Clubs    => 'c',
-            // CardSuit.Hearts   => 'h',
-            // CardSuit.Diamonds => 'd',
-            // CardSuit.Spades   => 's',
-            // _                 => 'c'
         };
         return $"{prefix}{((int)rank).ToString("D2")}.png";
     }

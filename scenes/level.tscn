@@ -7,10 +7,13 @@
 [ext_resource type="Script" uid="uid://cgj63oy5yxn3c" path="res://scenes/table/PokerTable.cs" id="5_klq6b"]
 [ext_resource type="Script" uid="uid://khva457xijx5" path="res://scenes/DeckManager.cs" id="5_ppgk2"]
 [ext_resource type="PackedScene" uid="uid://usehnhqtghrx" path="res://scenes/cards/card_visual.tscn" id="6_2r41h"]
-[ext_resource type="Script" uid="uid://ebrnumnagwiw" path="res://scenes/scripts/ui/BlackjackUI.cs" id="8_b121j"]
-[ext_resource type="Script" uid="uid://d3pyujfx2r0v5" path="res://scenes/skyjump/SkyJumpTrigger.cs" id="20_skyjt"]
-[ext_resource type="Script" uid="uid://br68ejktopp18" path="res://scenes/skyjump/SkyJumpGame.cs" id="21_skyjg"]
-[ext_resource type="Script" uid="uid://b3dupg0xbx2fx" path="res://scenes/scripts/ui/SkyJumpUI.cs" id="22_skyju"]
+[ext_resource type="Script" uid="uid://6etf2et0m5bn" path="res://scenes/scripts/ui/PegoteUI.cs" id="8_b121j"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_fk6vv"]
+albedo_color = Color(0.67230505, 1.7688051e-06, 6.256998e-07, 1)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_2a6q0"]
+albedo_color = Color(0.32087567, 0.17634031, 4.813075e-08, 1)
 
 [sub_resource type="PhysicsMaterial" id="PhysicsMaterial_fk6vv"]
 
@@ -26,7 +29,7 @@ roughness = 0.6
 [sub_resource type="HeightMapShape3D" id="HeightMapShape3D_fk6vv"]
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_fk6vv"]
-size = Vector3(1, 1, 2.6713867)
+size = Vector3(7.6831055, 2.1264648, 9.230225)
 
 [sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_tem6s"]
 
@@ -37,17 +40,45 @@ sky_material = SubResource("ProceduralSkyMaterial_tem6s")
 background_mode = 2
 sky = SubResource("Sky_2a6q0")
 
-[sub_resource type="LabelSettings" id="LabelSettings_olg7q"]
-font_size = 42
-
 [sub_resource type="LabelSettings" id="LabelSettings_hud1"]
 font_size = 42
-font_color = Color(1, 1, 1, 1)
-
-[sub_resource type="BoxShape3D" id="BoxShape3D_skyj1"]
-size = Vector3(2, 2, 3)
 
 [node name="Level" type="Node3D" unique_id=1006938256]
+
+[node name="map" type="Node3D" parent="." unique_id=577487138]
+
+[node name="walls" type="Node3D" parent="map" unique_id=876375689]
+
+[node name="CSGBox3D3" type="CSGBox3D" parent="map/walls" unique_id=1645589338]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 16.260422, 4.920906, -6.1422195)
+size = Vector3(1, 10, 111)
+
+[node name="CSGBox3D2" type="CSGBox3D" parent="map/walls" unique_id=557628894]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -8.869789, 4.960453, -6.3211107)
+size = Vector3(1, 10, 111)
+
+[node name="CSGBox3D5" type="CSGBox3D" parent="map/walls" unique_id=1583390958]
+transform = Transform3D(1.3113416e-07, 0, 1, 0, 1, 0, -1, 0, 1.3113416e-07, 3.4026413, 4.841812, -59.881798)
+size = Vector3(1, 10, 26)
+
+[node name="CSGBox3D4" type="CSGBox3D" parent="map/walls" unique_id=368257316]
+transform = Transform3D(-4.371139e-08, 0, -1, 0, 1, 0, 1, 0, -4.371139e-08, 3.7604218, 4.920906, 49.35778)
+size = Vector3(1, 10, 26)
+
+[node name="Rug" type="CSGBox3D" parent="map" unique_id=1238427763]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2.8190918, -0.42249882, -5.0216675)
+size = Vector3(13.513916, 1, 6.956665)
+material = SubResource("StandardMaterial3D_fk6vv")
+
+[node name="BorderTable" type="CSGBox3D" parent="map" unique_id=1591110609]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 3.1609573, 0.5205033, -12.534111)
+size = Vector3(10.484131, 1.1300049, 6.1464844)
+material = SubResource("StandardMaterial3D_2a6q0")
+
+[node name="CSGBox3D" type="CSGBox3D" parent="map/BorderTable" unique_id=1197988330]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.035634995, 0.35783553, 0.019543648)
+operation = 2
+size = Vector3(10.027344, 1.1300049, 5.727539)
 
 [node name="MainCamera" type="Camera3D" parent="." unique_id=2062244119 node_paths=PackedStringArray("Target")]
 transform = Transform3D(1, 0, 0, 0, 0.5944543, 0.80412954, 0, -0.80412954, 0.5944543, 0, 12.224119, 1.9086702)
@@ -82,6 +113,7 @@ CardVisualScene = ExtResource("6_2r41h")
 Table = NodePath("../PokerTable")
 UI = NodePath("../../CanvasLayer")
 DeckSpawnPoint = NodePath("../DeckSpawnPoint")
+TotalCardsInGame = 12
 
 [node name="DeckSpawnPoint" type="Marker3D" parent="TableTop" unique_id=1676343005]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 10.551673, -0.37520838, 7.3461275)
@@ -97,13 +129,14 @@ MainCamera = NodePath("../../MainCamera")
 PlayerNode = NodePath("../../Player")
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="TableTop/TableGameTrigger" unique_id=1863998118]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 5.247841, -0.88806593, 3.1274428)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.9062884, -0.3248335, 2.7996826)
 shape = SubResource("BoxShape3D_fk6vv")
 debug_color = Color(0.97881645, 0, 0.39693248, 0.41960785)
 
 [node name="Label3D" type="Label3D" parent="TableTop/TableGameTrigger" unique_id=372828569]
-transform = Transform3D(-8.829701e-08, 2.02, 8.829701e-08, 0, -8.829701e-08, 2.02, 2.02, 8.829701e-08, 3.8595844e-15, 5.261417, -1.3719354, 3.1784506)
-text = "ENTRAR MESA"
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 5.25, 0, 3.15)
+billboard = 1
+text = "PRESIONA [E] PARA JUGAR"
 
 [node name="PokerTable" parent="TableTop" unique_id=1673909171 node_paths=PackedStringArray("CornerRight", "CornerLeft") instance=ExtResource("3_w8frs")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 10.395053, -1.3967738, 3.1708448)
@@ -121,13 +154,12 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -4.112648, 1.224427, -3.98428
 environment = SubResource("Environment_fk6vv")
 
 [node name="DirectionalLight3D" type="DirectionalLight3D" parent="." unique_id=1218460224]
-transform = Transform3D(1, 0, 0, 0, -0.878153, 0.47837985, 0, -0.47837985, -0.878153, 0, 603.26807, 0)
+transform = Transform3D(0.70710677, 0.33826563, 0.62094796, 0, -0.878153, 0.47837985, 0.70710677, -0.33826563, -0.62094796, 0, 603.26807, 0)
 shadow_enabled = true
 
-[node name="CanvasLayer" type="CanvasLayer" parent="." unique_id=1716879195 node_paths=PackedStringArray("BtnHit", "BtnStand", "BtnRestart", "LblScorePlayer", "LblScoreDealer", "LblStatus", "Manager")]
+[node name="CanvasLayer" type="CanvasLayer" parent="." unique_id=1716879195 node_paths=PackedStringArray("BtnPlay", "BtnRestart", "LblScorePlayer", "LblScoreDealer", "LblStatus", "Manager")]
 script = ExtResource("8_b121j")
-BtnHit = NodePath("BlackjackUI/MarginContainer/HBoxContainer/HitButton")
-BtnStand = NodePath("BlackjackUI/MarginContainer/HBoxContainer/StandButton")
+BtnPlay = NodePath("BlackjackUI/MarginContainer/HBoxContainer/HitButton")
 BtnRestart = NodePath("BlackjackUI/MarginContainer/RestartButton")
 LblScorePlayer = NodePath("BlackjackUI/LabelPlayerScore")
 LblScoreDealer = NodePath("BlackjackUI/LabelDealerScore")
@@ -161,9 +193,10 @@ alignment = 1
 [node name="HitButton" type="Button" parent="CanvasLayer/BlackjackUI/MarginContainer/HBoxContainer" unique_id=54136102]
 custom_minimum_size = Vector2(200, 50)
 layout_mode = 2
-text = "Hit"
+text = "Sacar Carta"
 
 [node name="StandButton" type="Button" parent="CanvasLayer/BlackjackUI/MarginContainer/HBoxContainer" unique_id=891527970]
+visible = false
 custom_minimum_size = Vector2(200, 50)
 layout_mode = 2
 text = "Stand"
@@ -177,59 +210,35 @@ text = "Restart"
 
 [node name="LabelPlayerScore" type="Label" parent="CanvasLayer/BlackjackUI" unique_id=1492740518]
 layout_mode = 1
+anchors_preset = 2
 anchor_top = 1.0
 anchor_bottom = 1.0
-offset_left = 20.0
-offset_top = -80.0
-offset_right = 450.0
-offset_bottom = -10.0
+offset_left = 220.0
+offset_top = -218.0
+offset_right = 650.0
+offset_bottom = -148.0
+grow_vertical = 0
 label_settings = SubResource("LabelSettings_hud1")
 
 [node name="LabelDealerScore" type="Label" parent="CanvasLayer/BlackjackUI" unique_id=90685994]
 layout_mode = 1
-offset_left = 20.0
-offset_top = 20.0
-offset_right = 460.0
-offset_bottom = 80.0
+offset_left = 112.0
+offset_top = 163.0
+offset_right = 552.0
+offset_bottom = 223.0
 label_settings = SubResource("LabelSettings_hud1")
 
 [node name="LabelStatus" type="Label" parent="CanvasLayer/BlackjackUI" unique_id=1809275251]
-layout_mode = 0
-offset_left = 414.0
-offset_top = 539.0
-offset_right = 454.0
-offset_bottom = 562.0
-visible = false
-
-[node name="SkyJumpArea" type="Node3D" parent="." unique_id=1923809221]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 8, 0, 5)
-visible = false
-
-[node name="SkyJumpGame" type="Node3D" parent="SkyJumpArea" unique_id=1156142770]
-script = ExtResource("21_skyjg")
-
-[node name="SkyJumpTrigger" type="Area3D" parent="SkyJumpArea" unique_id=705667647 node_paths=PackedStringArray("GameNode", "MainCamera", "PlayerNode")]
-script = ExtResource("20_skyjt")
-GameNode = NodePath("../SkyJumpGame")
-MainCamera = NodePath("../../MainCamera")
-PlayerNode = NodePath("../../Player")
-
-[node name="CollisionShape3D" type="CollisionShape3D" parent="SkyJumpArea/SkyJumpTrigger" unique_id=1691852456]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
-shape = SubResource("BoxShape3D_skyj1")
-
-[node name="Label3D" type="Label3D" parent="SkyJumpArea/SkyJumpTrigger" unique_id=1342417899]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.8738127, 0)
-billboard = 1
-text = "SALTAR"
-font_size = 48
-
-[node name="SkyJumpUILayer" type="CanvasLayer" parent="." unique_id=738424226 node_paths=PackedStringArray("Game")]
-visible = false
-script = ExtResource("22_skyju")
-Game = NodePath("../SkyJumpArea/SkyJumpGame")
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.5
+anchor_top = 0.4
+anchor_right = 0.5
+anchor_bottom = 0.4
+offset_left = -320.0
+offset_top = -40.0
+offset_right = 320.0
+offset_bottom = 40.0
 
 [connection signal="body_entered" from="TableTop/TableGameTrigger" to="TableTop/TableGameTrigger" method="_on_body_entered"]
 [connection signal="body_exited" from="TableTop/TableGameTrigger" to="TableTop/TableGameTrigger" method="_on_body_exited"]
-[connection signal="body_entered" from="SkyJumpArea/SkyJumpTrigger" to="SkyJumpArea/SkyJumpTrigger" method="_on_body_entered"]
-[connection signal="body_exited" from="SkyJumpArea/SkyJumpTrigger" to="SkyJumpArea/SkyJumpTrigger" method="_on_body_exited"]

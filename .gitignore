@@ -13,3 +13,4 @@ obj/
 
 # Para no confundir cuando se translada de sistema operativo a otro
 .vscode
+build/*
